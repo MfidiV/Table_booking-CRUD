@@ -53,3 +53,29 @@ def delete_booking(booking_id):
     db.session.delete(booking)
     db.session.commit()
     return redirect(url_for('main.index'))
+
+
+"""Update the booking fields with form data 
+Save changes to the database and return a success response with 
+updated booking info"""
+@main.route('/edit/<int:booking_id>', methods=['POST'])
+def edit_booking(booking_id):
+    booking = Booking.query.get_or_404(booking_id)
+
+    booking.name = request.form.get('name')
+    booking.table_number = int(request.form.get('table_number'))
+    booking.date = request.form.get('date')
+    booking.time = request.form.get('time')
+
+    db.session.commit()
+
+    return jsonify({
+        'success': True,
+        'booking': {
+            'id': booking.id,
+            'name': booking.name,
+            'table_number': booking.table_number,
+            'date': booking.date,
+            'time': booking.time
+        }
+    })
