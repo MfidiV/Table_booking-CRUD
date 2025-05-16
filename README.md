@@ -73,8 +73,7 @@ This project is licensed under the MIT License.
 - Render – https://render.com/
 - Supabase – https://supabase.com/
 - Icons – [Font Awesome](https://fontawesome.com/)
-- Template inspiration from various open-source projects
 
 ---
 
- Built with ❤️ by Vuyolwethuh Mfidi – (https://github.com/mfidiv)
+ Built with ❤️ by Vuyolwethu Mfidi – (https://github.com/mfidiv)
