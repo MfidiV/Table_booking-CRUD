@@ -22,6 +22,14 @@ def create_app():
     # Import and register the main Blueprint containing routes
     from .routes import main
     app.register_blueprint(main)
+   
+    """Define a custom CLI command to initialize the database
+    Create all tables defined in your SQLAlchemy models"""
+    @app.cli.command("init-db")
+    def init_db():
+        with app.app_context():
+            db.create_all()  
+            print("Database initialized.")
 
     #Return the configured app instance
     return app
