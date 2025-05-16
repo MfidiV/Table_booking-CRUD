@@ -112,13 +112,10 @@
         <button type="submit">Add Booking</button>
     </form>
     <div class="bookings">
-        <ul>
-            {% for booking in bookings %}
-            <li>
-                <span>{{ booking.name }} - Table {{ booking.table_number }} on {{ booking.date }} at {{ booking.time }}</span>
+        <span>{{ booking.name }} - Table {{ booking.table_number }} on {{ booking.date }} at {{ booking.time }}</span>
                 <span class="actions">
                     <!-- Edit button -->
-                    <a href="#" class="edit-btn" title="Edit Booking">
+                    <a href="#" class="edit-btn" title="Edit Booking" onclick='openEditModal({{ booking | tojson | safe }})'>
                         ✏️
                     </a>
                     <!-- Delete button -->  
@@ -133,7 +130,51 @@
         </ul>
     </div>
 </div>
+
+<div id="editModal" class="modal" style="display:none;">
+    <div class="modal-content" style="width: 460px;">
+        <h3>Edit Booking</h3>
+        <form id="editBookingForm">
+            <input type="hidden" name="id" id="edit-id" />
+
+            <input type="text" name="name" id="edit-name" required />
+            <input type="number" name="table_number" id="edit-table_number" min="1" max="10" required />
+            <input type="date" name="date" id="edit-date" required />
+            <input type="time" name="time" id="edit-time" required />
+
+            <button type="submit">Save Changes</button>
+            <button type="button" class="cancel-btn-style" onclick="closeEditModal()">Cancel</button>
+        </form>
+    </div>
+</div>
 <script>
+
+    // Edit modal logic
+    const editModal = document.getElementById('editModal');
+    const editForm = document.getElementById('editBookingForm');
+
+    function openEditModal(booking) {
+        document.getElementById('edit-id').value = booking.id;
+        document.getElementById('edit-name').value = booking.name;
+        document.getElementById('edit-table_number').value = booking.table_number;
+        document.getElementById('edit-date').value = booking.date;
+        document.getElementById('edit-time').value = booking.time;
+
+        editModal.style.display = 'flex';
+    }
+
+    function closeEditModal() {
+        editModal.style.display = 'none';
+    }
+
+    // Close edit modal when clicking outside content
+    window.addEventListener('click', function(event) {
+        if (event.target === editModal) {
+            closeEditModal();
+        }
+    });
+
+    // Handle form submission
     editForm.addEventListener('submit', function(e) {
         e.preventDefault();
 
