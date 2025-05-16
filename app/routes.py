@@ -44,3 +44,12 @@ def add_booking():
     db.session.commit()
 
     return redirect(url_for('main.index'))
+
+# Deletes a specific booking based on its unique ID.
+@main.route('/delete/<int:booking_id>', methods=['GET'])
+def delete_booking(booking_id):
+    booking = Booking.query.get_or_404(booking_id)
+    db.session.delete(booking)
+    db.session.delete(booking)
+    db.session.commit()
+    return redirect(url_for('main.index'))
