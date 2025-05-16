@@ -27,3 +27,20 @@ def index():
 
    # Render the 'bookings.html' template and pass the bookings data to it
    return render_template('bookings.html', bookings=bookings_data)
+
+#Handles the form submission to add a new booking.
+@main.route('/add', methods=['POST'])
+def add_booking():
+    name = request.form.get('name')
+    table_number = request.form.get('table_number')
+    date = request.form.get('date')
+    time = request.form.get('time')
+
+    if not (name and table_number and date and time):
+        return redirect(url_for('main.index'))
+
+    new_booking = Booking(name=name, table_number=int(table_number), date=date, time=time)
+    db.session.add(new_booking)
+    db.session.commit()
+
+    return redirect(url_for('main.index'))
