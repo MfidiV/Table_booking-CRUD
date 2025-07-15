@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify
 from .models import db, Booking
+from datetime import date
 
 main = Blueprint('main', __name__)
 """
@@ -11,6 +12,8 @@ main = Blueprint('main', __name__)
 @main.route('/', methods=['GET'])
 def index():
    # Query all booking records from the database
+   current_date = date.today().isoformat()
+
    bookings = Booking.query.all()
 
    # Convert SQLAlchemy Booking objects into dictionaries for easier template rendering
@@ -26,7 +29,8 @@ def index():
    ]
 
    # Render the 'bookings.html' template and pass the bookings data to it
-   return render_template('bookings.html', bookings=bookings_data)
+   return render_template('bookings.html', bookings=bookings_data, current_date=current_date)
+
 
 #Handles the form submission to add a new booking.
 @main.route('/add', methods=['POST'])

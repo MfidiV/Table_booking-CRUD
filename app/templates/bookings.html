@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Table Bookings</title>
     <style>
-        body {
+         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f4f6f8;
             padding: 40px 20px;
@@ -185,7 +185,6 @@
             border-radius: 5px;
             cursor: pointer;
         }
-
     </style>
 </head>
 <body>
@@ -194,7 +193,7 @@
     <form method="POST" action="{{ url_for('main.add_booking') }}">
         <input type="text" name="name" placeholder="Full names" required />
         <input type="number" name="table_number" placeholder="Table Number" min="1" max="10" required />
-        <input type="date" id="date" name="date" placeholder="Select date" required />
+        <input type="date" id="date" name="date" required min="{{ current_date }}" />
         <input type="time" id="time" name="time" placeholder="Pick time" required />
 
         <button type="submit">Add Booking</button>
@@ -300,6 +299,14 @@
     function closeEditModal() {
         editModal.style.display = 'none';
     }
+
+    // Prevent selection of past dates
+    const dateInputs = document.querySelectorAll('input[type="date"]');
+    const today = new Date().toISOString().split('T')[0];
+
+    dateInputs.forEach(input => {
+        input.setAttribute('min', today);
+    });
 
     // Close edit modal when clicking outside content
     window.addEventListener('click', function(event) {
